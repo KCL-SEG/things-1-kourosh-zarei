@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from things.models import Thing
 
+
 class ModelTest(TestCase):
     def setUp(self):
         self.thing = Thing(name="Foobar", description="Foobar thing", quantity=2)
@@ -13,16 +14,18 @@ class ModelTest(TestCase):
         self._assert_thing_is_valid()
 
     def test_name_must_not_be_blank(self):
-        self.thing.name = ''
+        self.thing.name = ""
         self._assert_thing_is_invalid(message="Name must not be blank")
 
     def test_name_may_have_30_characters(self):
-        self.thing.name = 'x' * 30
+        self.thing.name = "x" * 30
         self._assert_thing_is_valid(message="Name may have 30 characters")
 
     def test_name_must_not_have_more_than_30_characters(self):
-        self.thing.name = 'x' * 31
-        self._assert_thing_is_invalid(message="Name must not have more than 30 characters")
+        self.thing.name = "x" * 31
+        self._assert_thing_is_invalid(
+            message="Name must not have more than 30 characters"
+        )
 
     def test_name_must_be_unique(self):
         other_thing = Thing(name="Baz", description="Baz thing", quantity=1)
@@ -31,16 +34,18 @@ class ModelTest(TestCase):
         self._assert_thing_is_invalid(message="Name must be unique")
 
     def test_description_may_be_blank(self):
-        self.thing.description = ''
+        self.thing.description = ""
         self._assert_thing_is_valid(message="Description may be blank")
 
     def test_description_may_have_120_characters(self):
-        self.thing.description = 'x' * 120
+        self.thing.description = "x" * 120
         self._assert_thing_is_valid(message="Description may have 120 characters")
 
     def test_description_must_not_have_more_than_120_characters(self):
-        self.thing.description = 'x' * 121
-        self._assert_thing_is_invalid(message="Description must not have more than 120 characters")
+        self.thing.description = "x" * 121
+        self._assert_thing_is_invalid(
+            message="Description must not have more than 120 characters"
+        )
 
     def test_description_need_not_be_unique(self):
         other_thing = Thing(name="Baz", description="Baz thing", quantity=1)
